@@ -11,22 +11,30 @@ using OutOfBound.Models;
 
 namespace OutOfBound
 {
-    public class QuestionController : Controller
+    public class QuestionsController : Controller
     {
         private readonly OutOfBoundContext _context;
 
-        public QuestionController(OutOfBoundContext context)
+        public QuestionsController(OutOfBoundContext context)
         {
             _context = context;
         }
 
-        // GET: Question
-        public async Task<IActionResult> Index()
+        // GET: Questions
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.QuestionModel.ToListAsync());
+            var questions = from m in _context.QuestionModel
+                select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                questions = questions.Where(s => s.Title!.Contains(searchString));
+            }
+
+            return View(await questions.ToListAsync());
         }
 
-        // GET: Question/Details/5
+        // GET: Questions/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)

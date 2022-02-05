@@ -1,14 +1,22 @@
 @model IEnumerable<OutOfBound.Models.QuestionModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Questions";
 }
 
-<h1>Index</h1>
+<h1>Questions</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form asp-controller="Questions" asp-action="Index">
+    <p>
+        Title: <input type="text" name="SearchString" />
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
 <table class="table">
     <thead>
         <tr>
