@@ -1,4 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using OutOfBound.Models;
+using Microsoft.Extensions.DependencyInjection;
+using OutOfBound.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<OutOfBoundContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("OutOfBoundContext")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

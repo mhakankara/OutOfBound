@@ -23,10 +23,35 @@ namespace OutOfBound.Controllers
             return View();
         }
 
+        public IActionResult Questions()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult Edit()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IActionResult Details()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IActionResult Delete()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IActionResult Create()
+        {
+            throw new NotImplementedException();
         }
     }
 }
