@@ -12,15 +12,11 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ID" />
+            <input type="hidden" asp-for="QuestionModelID" />
             <div class="form-group">
                 <label asp-for="Text" class="control-label"></label>
                 <textarea rows="10" cols="60" asp-for="Text" class="form-control"> </textarea>
                 <span asp-validation-for="Text" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Rating" class="control-label"></label>
-                <input asp-for="Rating" class="form-control" />
-                <span asp-validation-for="Rating" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
