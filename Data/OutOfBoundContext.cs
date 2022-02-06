@@ -16,5 +16,7 @@ namespace OutOfBound.Data
         }
 
         public DbSet<OutOfBound.Models.QuestionModel> QuestionModel { get; set; }
+
+        public DbSet<OutOfBound.Models.AnswerModel> AnswerModel { get; set; }
     }
 }

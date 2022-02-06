@@ -11,30 +11,22 @@ using OutOfBound.Models;
 
 namespace OutOfBound
 {
-    public class QuestionsController : Controller
+    public class AnswersController : Controller
     {
         private readonly OutOfBoundContext _context;
 
-        public QuestionsController(OutOfBoundContext context)
+        public AnswersController(OutOfBoundContext context)
         {
             _context = context;
         }
 
-        // GET: Questions
-        public async Task<IActionResult> Index(string searchString)
+        // GET: Answers
+        public async Task<IActionResult> Index()
         {
-            var questions = from m in _context.QuestionModel
-                select m;
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                questions = questions.Where(s => s.Title!.Contains(searchString));
-            }
-
-            return View(await questions.ToListAsync());
+            return View(await _context.AnswerModel.ToListAsync());
         }
 
-        // GET: Questions/Details/5
+        // GET: Answers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -42,39 +34,39 @@ namespace OutOfBound
                 return NotFound();
             }
 
-            var questionModel = await _context.QuestionModel
+            var answerModel = await _context.AnswerModel
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (questionModel == null)
+            if (answerModel == null)
             {
                 return NotFound();
             }
 
-            return View(questionModel);
+            return View(answerModel);
         }
 
-        // GET: Questions/Create
+        // GET: Answers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Questions/Create
+        // POST: Answers/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Title,Text")] QuestionModel questionModel)
+        public async Task<IActionResult> Create([Bind("ID,Text")] AnswerModel answerModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(questionModel);
+                _context.Add(answerModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(questionModel);
+            return View(answerModel);
         }
 
-        // GET: Questions/Edit/5
+        // GET: Answers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,22 +74,22 @@ namespace OutOfBound
                 return NotFound();
             }
 
-            var questionModel = await _context.QuestionModel.FindAsync(id);
-            if (questionModel == null)
+            var answerModel = await _context.AnswerModel.FindAsync(id);
+            if (answerModel == null)
             {
                 return NotFound();
             }
-            return View(questionModel);
+            return View(answerModel);
         }
 
-        // POST: Questions/Edit/5
+        // POST: Answers/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Title,Text")] QuestionModel questionModel)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Text,Rating")] AnswerModel answerModel)
         {
-            if (id != questionModel.ID)
+            if (id != answerModel.ID)
             {
                 return NotFound();
             }
@@ -106,12 +98,12 @@ namespace OutOfBound
             {
                 try
                 {
-                    _context.Update(questionModel);
+                    _context.Update(answerModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!QuestionModelExists(questionModel.ID))
+                    if (!AnswerModelExists(answerModel.ID))
                     {
                         return NotFound();
                     }
@@ -122,10 +114,10 @@ namespace OutOfBound
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(questionModel);
+            return View(answerModel);
         }
 
-        // GET: Questions/Delete/5
+        // GET: Answers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -133,30 +125,30 @@ namespace OutOfBound
                 return NotFound();
             }
 
-            var questionModel = await _context.QuestionModel
+            var answerModel = await _context.AnswerModel
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (questionModel == null)
+            if (answerModel == null)
             {
                 return NotFound();
             }
 
-            return View(questionModel);
+            return View(answerModel);
         }
 
-        // POST: Questions/Delete/5
+        // POST: Answers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var questionModel = await _context.QuestionModel.FindAsync(id);
-            _context.QuestionModel.Remove(questionModel);
+            var answerModel = await _context.AnswerModel.FindAsync(id);
+            _context.AnswerModel.Remove(answerModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool QuestionModelExists(int id)
+        private bool AnswerModelExists(int id)
         {
-            return _context.QuestionModel.Any(e => e.ID == id);
+            return _context.AnswerModel.Any(e => e.ID == id);
         }
     }
 }
