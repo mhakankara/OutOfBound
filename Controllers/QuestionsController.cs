@@ -44,10 +44,17 @@ namespace OutOfBound
 
             var questionModel = await _context.QuestionModel
                 .FirstOrDefaultAsync(m => m.ID == id);
+            
             if (questionModel == null)
             {
                 return NotFound();
             }
+            
+            List<AnswerModel> list = new List<AnswerModel>();
+            
+            await _context.AnswerModel
+                .Where(m => id == m.QuestionModelID)
+                .ToListAsync();
 
             return View(questionModel);
         }
