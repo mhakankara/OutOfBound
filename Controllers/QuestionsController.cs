@@ -50,8 +50,6 @@ namespace OutOfBound
                 return NotFound();
             }
             
-            List<AnswerModel> list = new List<AnswerModel>();
-            
             await _context.AnswerModel
                 .Where(m => id == m.QuestionModelID)
                 .ToListAsync();
@@ -164,6 +162,35 @@ namespace OutOfBound
         private bool QuestionModelExists(int id)
         {
             return _context.QuestionModel.Any(e => e.ID == id);
+        }
+
+        public async Task<IActionResult> PostAnswer(int id)
+        {
+
+            if (!QuestionModelExists(id))
+            {
+                return NotFound();
+            }
+
+
+            var answerModel = new AnswerModel();
+            answerModel.QuestionModelID = id;
+
+            return View(answerModel);
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PostAnswer([Bind("Text, QuestionModelID")] AnswerModel answerModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(answerModel);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Details), new { id = answerModel.QuestionModelID });
+            }
+            
+            return View(answerModel);
         }
     }
 }

@@ -1,30 +1,31 @@
 @model OutOfBound.Models.AnswerModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "PostAnswer";
 }
 
-<h1>Create</h1>
+<h1>Post a new answer</h1>
 
-<h4>AnswerModel</h4>
-<hr />
+<hr/>
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="PostAnswer">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
                 <label asp-for="Text" class="control-label"></label>
-                <input asp-for="Text" class="form-control" />
+                <input asp-for="Text" class="form-control"/>
                 <span asp-validation-for="Text" class="text-danger"></span>
             </div>
+            <input type="hidden" asp-for="QuestionModelID"/>
+
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Post" class="btn btn-primary"/>
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Details" asp-route-id="@Model?.QuestionModelID">Back to the question</a>
 </div>
-
